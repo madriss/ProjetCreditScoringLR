@@ -1,0 +1,45 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <mlpack/core.hpp>
+#include <mlpack/methods/linear_regression/linear_regression.hpp>
+using namespace mlpack::regression;
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_pushButton_clicked()
+{   
+
+      // First, load the data.
+
+        arma::mat X; // The dataset itself.
+        arma::mat y;
+        arma::mat A = arma::randu<arma::mat>(1000,11);
+
+        X.load("trainX.csv");
+        y.load("trainY.csv");
+        X = X+A;
+
+
+      // Get the parameters, or coefficients.
+
+      arma::vec parameters = inv(X.t()*X)*X.t()*y;
+      // Save the output.
+
+      parameters.save("param.csv");
+
+
+}
+
+void MainWindow::on_toolButton_clicked()
+{
+
+}
